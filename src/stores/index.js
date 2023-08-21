@@ -20,7 +20,6 @@ export const useStore = defineStore("store", {
     seriesCount: 0,
     storiesCount: 0,
     eventsCount: 0,
-    loading: false,
     error: null,
   }),
   actions: {
@@ -60,10 +59,8 @@ export const useStore = defineStore("store", {
           page++;
         }
         this[type] = results;
-        this.loading = false;
       } catch (error) {
         this.error = error;
-        this.loading = false;
       }
     },
   },

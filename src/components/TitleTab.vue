@@ -32,7 +32,6 @@ export default {
       "detailSearch",
     ]),
     ...mapState(useStore, [
-      "loading",
       "character",
       "comicsCount",
       "storiesCount",
@@ -101,91 +100,36 @@ export default {
       :placeholder="`Search for ${currentTab}...`"
       style="margin-bottom: 2rem"
     />
-    <div v-if="loading" class="spinner">
-      <div class="bounce1"></div>
-      <div class="bounce2"></div>
-      <div class="bounce3"></div>
+    <div v-if="this[currentTab].length">
+      <ul class="results">
+        <li v-for="item in this[currentTab]" :key="item.id" class="result">
+          <div class="img-box">
+            <img
+              v-if="item.thumbnail"
+              :src="`${
+                item.thumbnail
+                  ? item.thumbnail.path
+                  : 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
+              }/standard_amazing.${item.thumbnail.extension}`"
+              :alt="item.title"
+              class="thumbnail"
+            />
+          </div>
+          <h2 class="title">{{ item.title }}</h2>
+        </li>
+      </ul>
+      <base-pagination
+        v-if="pageCount > 1"
+        :pageCount="pageCount"
+        :currentPage="currentPage"
+        @page-update="currentPage = $event"
+      />
     </div>
-    <div v-else>
-      <div v-if="this[currentTab].length">
-        <ul class="results">
-          <li v-for="item in this[currentTab]" :key="item.id" class="result">
-            <div class="img-box">
-              <img
-                v-if="item.thumbnail"
-                :src="`${
-                  item.thumbnail
-                    ? item.thumbnail.path
-                    : 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
-                }/standard_amazing.${item.thumbnail.extension}`"
-                :alt="item.title"
-                class="thumbnail"
-              />
-            </div>
-            <h2 class="title">{{ item.title }}</h2>
-          </li>
-        </ul>
-        <base-pagination
-          v-if="pageCount > 1"
-          :pageCount="pageCount"
-          :currentPage="currentPage"
-          @page-update="currentPage = $event"
-        />
-      </div>
-      <p v-else>No {{ currentTab }} found</p>
-    </div>
+    <p v-else>No {{ currentTab }} found</p>
   </div>
 </template>
 
 <style scoped>
-.spinner {
-  margin: 100px auto 0;
-  width: 70px;
-  text-align: center;
-}
-
-.spinner > div {
-  width: 18px;
-  height: 18px;
-  background-color: #333;
-
-  border-radius: 100%;
-  display: inline-block;
-  -webkit-animation: sk-bounce 1.4s infinite ease-in-out both;
-  animation: sk-bounce 1.4s infinite ease-in-out both;
-}
-
-.spinner .bounce1 {
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
-}
-
-.spinner .bounce2 {
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s;
-}
-
-@-webkit-keyframes sk-bounce {
-  0%,
-  100% {
-    -webkit-transform: scale(0);
-  }
-  50% {
-    -webkit-transform: scale(1);
-  }
-}
-
-@keyframes sk-bounce {
-  0%,
-  100% {
-    transform: scale(0);
-    -webkit-transform: scale(0);
-  }
-  50% {
-    transform: scale(1);
-    -webkit-transform: scale(1);
-  }
-}
 .results {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
