@@ -35,7 +35,7 @@ export default {
       <span
         v-for="(page, index) in currentPage - 3 < 0 && pageCount > 5
           ? [1, 2, 3, 4, 5].slice(0, pageCount)
-          : pageCount < 8
+          : pageCount < 7
           ? pageCount
           : currentPage + 3 > pageCount
           ? [
