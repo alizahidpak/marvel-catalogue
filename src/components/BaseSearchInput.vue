@@ -1,11 +1,5 @@
 <script>
-import { useStore } from "../stores";
-import { mapWritableState } from "pinia";
-export default {
-  computed: {
-    ...mapWritableState(useStore, ["characterSearch", "detailSearch"]),
-  },
-};
+export default {};
 </script>
 
 <template>

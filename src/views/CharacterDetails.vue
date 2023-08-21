@@ -20,6 +20,8 @@ export default {
   methods: {
     toggleTab(tab) {
       this.currentTab = tab;
+      this.detailSearch = "";
+      this.getDataById({ id: this.$route.params.id, dataType: "" });
     },
     ...mapActions(useStore, ["getDataById"]),
   },
